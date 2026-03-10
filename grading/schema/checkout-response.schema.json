@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CheckoutResponse",
+  "type": "object",
+  "required": ["orderId", "status", "trace"],
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["completed", "failed", "compensated", "in_progress"]
+    },
+    "code": {
+      "type": "string"
+    },
+    "trace": {
+      "type": "array",
+      "items": {
+        "$ref": "trace-item.schema.json"
+      }
+    }
+  },
+  "additionalProperties": true
+}
+

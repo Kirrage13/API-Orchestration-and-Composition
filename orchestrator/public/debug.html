@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Practice 3 Debug Trace</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; }
+      input, button { padding: 0.5rem; font-size: 1rem; }
+      #output { margin-top: 1rem; white-space: pre-wrap; background: #f6f8fa; padding: 1rem; border-radius: 8px; }
+    </style>
+  </head>
+  <body>
+    <h1>Practice 3 Debug Trace (Ungraded)</h1>
+    <p>Enter an order ID to inspect current saga state from <code>/debug/trace/:orderId</code>.</p>
+    <input id="orderId" placeholder="ord-123" />
+    <button id="loadBtn">Load Trace</button>
+    <div id="output">No data loaded.</div>
+
+    <script>
+      const button = document.getElementById('loadBtn');
+      const input = document.getElementById('orderId');
+      const output = document.getElementById('output');
+
+      button.addEventListener('click', async () => {
+        const orderId = input.value.trim();
+        if (!orderId) {
+          output.textContent = 'Please provide an orderId.';
+          return;
+        }
+
+        try {
+          const res = await fetch(`/debug/trace/${encodeURIComponent(orderId)}`);
+          const data = await res.json();
+          output.textContent = JSON.stringify(data, null, 2);
+        } catch (err) {
+          output.textContent = `Error: ${err.message}`;
+        }
+      });
+    </script>
+  </body>
+</html>
+

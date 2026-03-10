@@ -1,0 +1,27 @@
+{
+  "name": "idempotency-mismatch",
+  "idempotencyKey": "idem-mismatch-001",
+  "payloadA": {
+    "orderId": "ord-mismatch-001",
+    "customerId": "cust-6",
+    "recipient": "student@example.test",
+    "items": [
+      { "sku": "p-600", "quantity": 1, "price": 20.0 }
+    ],
+    "amount": 20.0
+  },
+  "payloadB": {
+    "orderId": "ord-mismatch-001",
+    "customerId": "cust-6",
+    "recipient": "student@example.test",
+    "items": [
+      { "sku": "p-600", "quantity": 2, "price": 20.0 }
+    ],
+    "amount": 40.0
+  },
+  "expected": {
+    "httpStatus": 409,
+    "code": "idempotency_payload_mismatch"
+  }
+}
+

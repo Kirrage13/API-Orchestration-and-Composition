@@ -1,0 +1,17 @@
+{
+  "name": "payment-failure",
+  "idempotencyKey": "idem-pay-fail-001",
+  "payload": {
+    "orderId": "ord-pay-fail-001",
+    "customerId": "cust-2",
+    "recipient": "student@example.test",
+    "items": [
+      { "sku": "p-200", "quantity": 2, "price": 5.0 }
+    ],
+    "amount": 10.0
+  },
+  "expected": {
+    "httpStatus": 422
+  }
+}
+

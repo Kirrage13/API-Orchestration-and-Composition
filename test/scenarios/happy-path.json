@@ -1,0 +1,18 @@
+{
+  "name": "happy-path",
+  "idempotencyKey": "idem-happy-001",
+  "payload": {
+    "orderId": "ord-happy-001",
+    "customerId": "cust-1",
+    "recipient": "student@example.test",
+    "items": [
+      { "sku": "p-100", "quantity": 1, "price": 9.99 }
+    ],
+    "amount": 9.99
+  },
+  "expected": {
+    "httpStatus": 200,
+    "status": "completed"
+  }
+}
+

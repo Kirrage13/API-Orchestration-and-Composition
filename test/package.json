@@ -1,0 +1,15 @@
+{
+  "name": "practice-3-orchestration-tests",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "jest --runInBand --forceExit"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "axios": "^1.7.9",
+    "jest": "^29.7.0"
+  }
+}
+

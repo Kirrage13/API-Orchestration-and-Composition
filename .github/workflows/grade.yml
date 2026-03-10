@@ -1,0 +1,52 @@
+name: Auto-Grade Practice 3
+
+on: [push]
+
+jobs:
+  grade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and start containers
+        run: docker-compose -f practice-03-api_orchestration_and_composition/docker-compose.yml up -d --build
+
+      - name: Health checks (fail-fast)
+        run: |
+          echo "Waiting for orchestrator and mocks..."
+          for i in $(seq 1 45); do curl -sf http://localhost:3000/health && break || sleep 2; done
+          for i in $(seq 1 45); do curl -sf http://localhost:4001/health && break || sleep 2; done
+          for i in $(seq 1 45); do curl -sf http://localhost:4002/health && break || sleep 2; done
+          for i in $(seq 1 45); do curl -sf http://localhost:4003/health && break || sleep 2; done
+          for i in $(seq 1 45); do curl -sf http://localhost:4004/health && break || sleep 2; done
+
+      - name: Install test dependencies
+        run: cd practice-03-api_orchestration_and_composition/test && npm install
+
+      - name: Run public deterministic tests
+        run: cd practice-03-api_orchestration_and_composition/test && npx jest orchestration.public.test.js --runInBand --forceExit --json --outputFile=results.json 2>&1 || true
+
+      - name: Run hidden anti-gaming tests
+        run: cd practice-03-api_orchestration_and_composition/test && if [ -f ../instructor-only/hidden/orchestration.hidden.test.js ]; then npx jest ../instructor-only/hidden/orchestration.hidden.test.js --runInBand --forceExit 2>&1 || true; fi
+
+      - name: Generate grade report
+        run: node practice-03-api_orchestration_and_composition/grading/report.js practice-03-api_orchestration_and_composition/test/results.json
+
+      - name: Print grade report
+        run: cat grade-report.md
+
+      - name: Upload failure artifacts only
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: practice-3-failure-artifacts
+          path: |
+            grade-report.md
+            practice-03-api_orchestration_and_composition/test/results.json
+
+      - name: Cleanup
+        if: always()
+        run: docker-compose -f practice-03-api_orchestration_and_composition/docker-compose.yml down -v
+

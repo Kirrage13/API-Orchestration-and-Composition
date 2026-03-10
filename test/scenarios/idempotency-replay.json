@@ -1,0 +1,14 @@
+{
+  "name": "idempotency-replay",
+  "idempotencyKey": "idem-replay-001",
+  "payload": {
+    "orderId": "ord-replay-001",
+    "customerId": "cust-5",
+    "recipient": "student@example.test",
+    "items": [
+      { "sku": "p-500", "quantity": 1, "price": 12.5 }
+    ],
+    "amount": 12.5
+  }
+}
+

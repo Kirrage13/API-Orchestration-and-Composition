@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SagaStore",
+  "type": "object",
+  "required": ["sagas"],
+  "properties": {
+    "sagas": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["idempotencyKey", "state", "steps", "updatedAt"],
+        "properties": {
+          "idempotencyKey": { "type": "string" },
+          "state": {
+            "type": "string",
+            "enum": ["completed", "failed", "compensated"]
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "$ref": "trace-item.schema.json"
+            }
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}
+

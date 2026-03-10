@@ -1,0 +1,17 @@
+{
+  "name": "inventory-failure",
+  "idempotencyKey": "idem-inv-fail-001",
+  "payload": {
+    "orderId": "ord-inv-fail-001",
+    "customerId": "cust-3",
+    "recipient": "student@example.test",
+    "items": [
+      { "sku": "p-300", "quantity": 3, "price": 7.0 }
+    ],
+    "amount": 21.0
+  },
+  "expected": {
+    "httpStatus": 422
+  }
+}
+

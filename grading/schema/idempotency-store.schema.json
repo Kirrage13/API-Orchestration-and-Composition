@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IdempotencyStore",
+  "type": "object",
+  "required": ["records"],
+  "properties": {
+    "records": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["requestHash", "state", "httpStatus", "response", "updatedAt"],
+        "properties": {
+          "requestHash": { "type": "string" },
+          "state": {
+            "type": "string",
+            "enum": ["in_progress", "completed", "failed", "compensated"]
+          },
+          "httpStatus": { "type": "integer" },
+          "response": { "type": "object" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}
+
