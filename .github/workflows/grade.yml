@@ -23,16 +23,16 @@ jobs:
           for i in $(seq 1 45); do curl -sf http://localhost:4004/health && break || sleep 2; done
 
       - name: Install test dependencies
-        run: cd practice-03-api_orchestration_and_composition/test && npm install
+        run: cd test && npm install
 
       - name: Run public deterministic tests
-        run: cd practice-03-api_orchestration_and_composition/test && npx jest orchestration.public.test.js --runInBand --forceExit --json --outputFile=results.json 2>&1 || true
+        run: cd test && npx jest orchestration.public.test.js --runInBand --forceExit --json --outputFile=results.json 2>&1 || true
 
       - name: Run hidden anti-gaming tests
-        run: cd practice-03-api_orchestration_and_composition/test && if [ -f ../instructor-only/hidden/orchestration.hidden.test.js ]; then npx jest ../instructor-only/hidden/orchestration.hidden.test.js --runInBand --forceExit 2>&1 || true; fi
+        run: cd test && if [ -f ../instructor-only/hidden/orchestration.hidden.test.js ]; then npx jest ../instructor-only/hidden/orchestration.hidden.test.js --runInBand --forceExit 2>&1 || true; fi
 
       - name: Generate grade report
-        run: node practice-03-api_orchestration_and_composition/grading/report.js practice-03-api_orchestration_and_composition/test/results.json
+        run: node grading/report.js test/results.json
 
       - name: Print grade report
         run: cat grade-report.md
@@ -44,7 +44,7 @@ jobs:
           name: practice-3-failure-artifacts
           path: |
             grade-report.md
-            practice-03-api_orchestration_and_composition/test/results.json
+            test/results.json
 
       - name: Cleanup
         if: always()
